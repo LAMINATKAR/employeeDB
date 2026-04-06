@@ -1,10 +1,9 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Zamestnanec implements Serializable {
+public abstract class Zamestnanec {
     private int id;
     private String meno;
     private String priezvisko;

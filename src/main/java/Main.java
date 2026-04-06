@@ -59,21 +59,23 @@ public class Main {
     // ===================== AKCIE =====================
 
     private static void pridajZamestnanca() {
-        System.out.println("Skupina: 1 = Datový analytik  |  2 = Bezpečnostný špecialist");
-        System.out.print("Voľba skupiny: ");
-        String skupinaVol = sc.nextLine().trim();
+        System.out.println("Skupiny: ");
+        System.out.println("| 1 = Datový analytik");
+        System.out.println("| 2 = Bezpečnostný špecialista");
+        System.out.println("Voľba: ");
+        String skupinaVolba = sc.nextLine().trim();
 
         System.out.print("Meno: ");
         String meno = sc.nextLine().trim();
         System.out.print("Priezvisko: ");
-        String priez = sc.nextLine().trim();
+        String priezvisko = sc.nextLine().trim();
         System.out.print("Rok narodenia: ");
         int rok = Integer.parseInt(sc.nextLine().trim());
 
         int id = db.generateId();
-        Zamestnanec z = switch (skupinaVol) {
-            case "1" -> new DatovyAnalytik(id, meno, priez, rok);
-            case "2" -> new BezpecnostnySpecialista(id, meno, priez, rok);
+        Zamestnanec z = switch (skupinaVolba) {
+            case "1" -> new DatovyAnalytik(id, meno, priezvisko, rok);
+            case "2" -> new BezpecnostnySpecialista(id, meno, priezvisko, rok);
             default  -> { System.out.println("Neplatná skupina."); yield null; }
         };
 

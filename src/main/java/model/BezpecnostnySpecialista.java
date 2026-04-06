@@ -10,7 +10,7 @@ public class BezpecnostnySpecialista extends Zamestnanec {
     }
 
     @Override
-    public String getSkupina() { return "Bezpečnostný špecialist"; }
+    public String getSkupina() { return "Bezpečnostný špecialista"; }
 
     /**
      * Rizikové skóre = počet_spolupracovníkov × priemerná_váha_úrovne
