@@ -29,7 +29,7 @@ public class DatovyAnalytik extends Zamestnanec {
         }
 
         if (mojeSpoluprace.isEmpty()) {
-            System.out.println("Nemám žiadnych spolupracovníkov.");
+            System.out.println("Zamestnanec nemá žiadnych spolupracovníkov.");
             return;
         }
 
@@ -56,9 +56,9 @@ public class DatovyAnalytik extends Zamestnanec {
         }
 
         if (najlepsi == null || maxSpolocnych == 0) {
-            System.out.println("Žiadny spolupracovník nemá spoločných kolegov so mnou.");
+            System.out.println("Žiadny spolupracovník nemá spoločných kolegov s týmto zamestnancom.");
         } else {
-            System.out.println("Najviac spoločných spolupracovníkov mám s:");
+            System.out.println("Najviac spoločných spolupracovníkov má s:");
             System.out.println("  " + najlepsi.getMeno() + " " + najlepsi.getPriezvisko()
                 + " (ID=" + najlepsi.getId() + ")");
             System.out.println("  Počet spoločných: " + maxSpolocnych);

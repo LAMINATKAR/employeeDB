@@ -49,13 +49,33 @@ public class Databaza {
         return true;
     }
 
-    public Collection<Zamestnanec> getVsetci() {
-        return zamestnanci.values();
-    }
-
     public Map<Integer, Zamestnanec> getMapaVsetkych() {
         return Collections.unmodifiableMap(zamestnanci);
     }
+
+    /*
+    Collections.unmodifiableMap() obalí mapu tak, že ju nemožno modifikovať zvonka.
+
+    ---
+    Keby sme vrátili priamo:
+    return zamestnanci; // nebezpečné
+    Ktokoľvek kto dostane túto mapu mohol by spraviť:
+    mapa.put(99, nejakeZleDáta); // modifikuje internú mapu Databazy!
+    mapa.clear(); // vymaže všetko!
+
+    ---
+    S unmodifiableMap:
+    return Collections.unmodifiableMap(zamestnanci);
+    Ak by niekto skúsil put() alebo remove(), dostane UnsupportedOperationException.
+
+    Čítať z mapy môže normálne — len zapis je zakázaný.
+
+    ---
+    Prečo to tu má zmysel:
+
+    getMapaVsetkych() sa posiela do spustiDovednost() — tam zamestnanci len čítajú ostatných kolegov. Nemali by mať možnosť meniť databázu. Takto to
+    kompilátor/runtime ostrieha.
+    */
 
     // ===================== ABECEDNÝ VÝPIS =====================
 
@@ -106,7 +126,7 @@ public class Databaza {
         System.out.println("Priemerná spolupráca: " + priemerna);
         System.out.println("Slabá spolupráca   : " + slaba);
 
-        long max = Math.max(dobra, Math.max(priemerna, slaba));
+        long max = Math.max(dobra, Math.max(priemerna, slaba)); //Math.max() berie len 2 parametre — preto treba vnoriť pre 3 hodnoty.
         String prevazujuca = (dobra == max) ? "Dobrá" : (priemerna == max) ? "Priemerná" : "Slabá";
         System.out.println("Prevažujúca        : " + prevazujuca);
 
