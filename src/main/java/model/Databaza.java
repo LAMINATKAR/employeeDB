@@ -161,7 +161,14 @@ public class Databaza {
     public Zamestnanec nacitajZoSuboru(String cestaSuboru) {
         try (Reader r = new FileReader(cestaSuboru)) {
             Zamestnanec z = GSON.fromJson(r, Zamestnanec.class);
-            if (z != null) pridajZamestnanca(z);
+            if (z != null) {
+                if (zamestnanci.containsKey(z.getId())) {
+                    int stareId = z.getId();
+                    z.setId(generateId());
+                    System.out.println("Upozornenie: ID=" + stareId + " bolo obsadené. Priradené nové ID=" + z.getId());
+                }
+                pridajZamestnanca(z);
+            }
             return z;
         } catch (IOException e) {
             System.err.println("Chyba pri načítaní: " + e.getMessage());

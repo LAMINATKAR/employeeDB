@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Zamestnanec {
     private int id;
@@ -40,7 +41,7 @@ public abstract class Zamestnanec {
     public ArrayList<Spolupraca> getSpolupracovnici() { return spolupracovnici; }
 
     // --- Info výpis ---
-    public String getInfo() {
+    public String getInfo(Map<Integer, Zamestnanec> vsetci) {
         StringBuilder sb = new StringBuilder();
         sb.append("ID: ").append(id).append("\n");
         sb.append("Meno: ").append(meno).append(" ").append(priezvisko).append("\n");
@@ -51,7 +52,9 @@ public abstract class Zamestnanec {
         if (!spolupracovnici.isEmpty()) {
             sb.append("Spolupracovníci:\n");
             for (Spolupraca s : spolupracovnici) {
-                sb.append("  - ").append(s).append("\n");
+                Zamestnanec k = vsetci != null ? vsetci.get(s.getKolegaId()) : null;
+                String meno = k != null ? k.getMeno() + " " + k.getPriezvisko() + " (ID=" + s.getKolegaId() + ")" : "ID=" + s.getKolegaId();
+                sb.append("  - ").append(meno).append(" | Úroveň=").append(s.getUroven().toDisplay()).append("\n");
             }
         }
 
@@ -71,6 +74,7 @@ public abstract class Zamestnanec {
     public String getMeno()         { return meno; }
     public String getPriezvisko()   { return priezvisko; }
     public int getRokNarodenia()    { return rokNarodenia; }
+    public void setId(int id)        { this.id = id; }
     public void setMeno(String m)   { this.meno = m; }
     public void setPriezvisko(String p) { this.priezvisko = p; }
 }

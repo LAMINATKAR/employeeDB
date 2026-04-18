@@ -44,6 +44,10 @@ public class BezpecnostnySpecialista extends Zamestnanec {
     @Override
     public void spustiDovednost(Map<Integer, Zamestnanec> vsetci) {
         System.out.println("=== Dovednosť: Vyhodnotenie rizika spolupráce ===");
+        if (getSpolupracovnici().isEmpty()) {
+            System.out.println("Zamestnanec nemá žiadnych spolupracovníkov.");
+            return;
+        }
         double skore = vypocitajRizikoveSkore();
         System.out.println("Počet spolupracovníkov : " + getSpolupracovnici().size());
         System.out.printf ("Rizikové skóre         : %.2f%n", skore);

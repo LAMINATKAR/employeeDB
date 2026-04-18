@@ -51,7 +51,7 @@ public class Main {
         System.out.println("║  8.  Počty v skupinách               ║");
         System.out.println("║  9.  Uložiť zamestnanca do súboru    ║");
         System.out.println("║  10. Načítať zamestnanca zo súboru   ║");
-        System.out.println("║  0.  Ukončiť                         ║");
+        System.out.println("║  0.  Ukončiť a uložiť                ║");
         System.out.println("╚══════════════════════════════════════╝");
         System.out.print("Voľba: ");
     }
@@ -112,8 +112,10 @@ public class Main {
     private static void odoberZamestnanca() {
         System.out.print("ID zamestnanca na odstránenie: ");
         int id = Integer.parseInt(sc.nextLine().trim());
-        boolean ok = db.odoberZamestnanca(id);
-        System.out.println(ok ? "Zamestnanec odstránený." : "ID nenájdené.");
+        Zamestnanec z = db.najdiPodlaId(id);
+        if (z == null) { System.out.println("ID nenájdené."); return; }
+        db.odoberZamestnanca(id);
+        System.out.println("Zamestnanec " + z.getMeno() + " " + z.getPriezvisko() + " odstránený.");
     }
 
     private static void vyhladajZamestnanca() {
@@ -121,7 +123,7 @@ public class Main {
         int id = Integer.parseInt(sc.nextLine().trim());
         Zamestnanec z = db.najdiPodlaId(id);
         if (z == null) { System.out.println("Zamestnanec nenájdený."); return; }
-        System.out.println(z.getInfo());
+        System.out.println(z.getInfo(db.getMapaVsetkych()));
     }
 
     private static void spustiDovednost() {
@@ -129,6 +131,7 @@ public class Main {
         int id = Integer.parseInt(sc.nextLine().trim());
         Zamestnanec z = db.najdiPodlaId(id);
         if (z == null) { System.out.println("Zamestnanec nenájdený."); return; }
+        System.out.println("Zamestnanec: " + z.getMeno() + " " + z.getPriezvisko() + " (" + z.getSkupina() + ")");
         z.spustiDovednost(db.getMapaVsetkych());
     }
 
