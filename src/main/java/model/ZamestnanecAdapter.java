@@ -23,7 +23,7 @@ public class ZamestnanecAdapter implements JsonSerializer<Zamestnanec>, JsonDese
         String skupina = obj.get("skupina").getAsString();
         return switch (skupina) {
             case "Datový analytik"          -> ctx.deserialize(obj, DatovyAnalytik.class);
-            case "Bezpečnostný špecialist"  -> ctx.deserialize(obj, BezpecnostnySpecialista.class);
+            case "Bezpečnostný špecialista"  -> ctx.deserialize(obj, BezpecnostnySpecialista.class);
             default -> throw new JsonParseException("Neznáma skupina: " + skupina);
         };
     }

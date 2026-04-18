@@ -56,6 +56,36 @@ public class Main {
         System.out.print("Voľba: ");
     }
 
+    // ===================== POMOCNÉ =====================
+
+    private static int nacitajInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Zadaj celé číslo.");
+            }
+        }
+    }
+
+    private static String nacitajString(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String vstup = sc.nextLine().trim();
+            if (!vstup.isEmpty()) return vstup;
+            System.out.println("Pole nesmie byť prázdne.");
+        }
+    }
+
+    private static int nacitajRok(String prompt) {
+        while (true) {
+            int rok = nacitajInt(prompt);
+            if (rok > 0) return rok;
+            System.out.println("Rok musí byť kladné číslo.");
+        }
+    }
+
     // ===================== AKCIE =====================
 
     private static void pridajZamestnanca() {
@@ -65,31 +95,27 @@ public class Main {
         System.out.println("Voľba: ");
         String skupinaVolba = sc.nextLine().trim();
 
-        System.out.print("Meno: ");
-        String meno = sc.nextLine().trim();
-        System.out.print("Priezvisko: ");
-        String priezvisko = sc.nextLine().trim();
-        System.out.print("Rok narodenia: ");
-        int rok = Integer.parseInt(sc.nextLine().trim());
+        if (!skupinaVolba.equals("1") && !skupinaVolba.equals("2")) {
+            System.out.println("Neplatná skupina.");
+            return;
+        }
+
+        String meno = nacitajString("Meno: ");
+        String priezvisko = nacitajString("Priezvisko: ");
+        int rok = nacitajRok("Rok narodenia: ");
 
         int id = db.generateId();
-        Zamestnanec z = switch (skupinaVolba) {
-            case "1" -> new DatovyAnalytik(id, meno, priezvisko, rok);
-            case "2" -> new BezpecnostnySpecialista(id, meno, priezvisko, rok);
-            default  -> { System.out.println("Neplatná skupina."); yield null; }
-        };
+        Zamestnanec z = skupinaVolba.equals("1")
+                ? new DatovyAnalytik(id, meno, priezvisko, rok)
+                : new BezpecnostnySpecialista(id, meno, priezvisko, rok);
 
-        if (z != null) {
-            db.pridajZamestnanca(z);
-            System.out.println("Zamestnanec pridaný s ID=" + id);
-        }
+        db.pridajZamestnanca(z);
+        System.out.println("Zamestnanec pridaný s ID=" + id);
     }
 
     private static void pridajSpolupraca() {
-        System.out.print("ID zamestnanca: ");
-        int idA = Integer.parseInt(sc.nextLine().trim());
-        System.out.print("ID kolegu: ");
-        int idB = Integer.parseInt(sc.nextLine().trim());
+        int idA = nacitajInt("ID zamestnanca: ");
+        int idB = nacitajInt("ID kolegu: ");
         System.out.print("Úroveň (1=Dobrá / 2=Priemerná / 3=Slabá): ");
         String urovenVolba = sc.nextLine().trim();
 
@@ -110,8 +136,7 @@ public class Main {
     }
 
     private static void odoberZamestnanca() {
-        System.out.print("ID zamestnanca na odstránenie: ");
-        int id = Integer.parseInt(sc.nextLine().trim());
+        int id = nacitajInt("ID zamestnanca na odstránenie: ");
         Zamestnanec z = db.najdiPodlaId(id);
         if (z == null) { System.out.println("ID nenájdené."); return; }
         db.odoberZamestnanca(id);
@@ -119,16 +144,14 @@ public class Main {
     }
 
     private static void vyhladajZamestnanca() {
-        System.out.print("ID zamestnanca: ");
-        int id = Integer.parseInt(sc.nextLine().trim());
+        int id = nacitajInt("ID zamestnanca: ");
         Zamestnanec z = db.najdiPodlaId(id);
         if (z == null) { System.out.println("Zamestnanec nenájdený."); return; }
         System.out.println(z.getInfo(db.getMapaVsetkych()));
     }
 
     private static void spustiDovednost() {
-        System.out.print("ID zamestnanca: ");
-        int id = Integer.parseInt(sc.nextLine().trim());
+        int id = nacitajInt("ID zamestnanca: ");
         Zamestnanec z = db.najdiPodlaId(id);
         if (z == null) { System.out.println("Zamestnanec nenájdený."); return; }
         System.out.println("Zamestnanec: " + z.getMeno() + " " + z.getPriezvisko() + " (" + z.getSkupina() + ")");
@@ -136,8 +159,7 @@ public class Main {
     }
 
     private static void ulozDoSuboru() {
-        System.out.print("ID zamestnanca: ");
-        int id = Integer.parseInt(sc.nextLine().trim());
+        int id = nacitajInt("ID zamestnanca: ");
         System.out.print("Cesta k súboru (napr. zamestnanec.json): ");
         String cesta = sc.nextLine().trim();
         boolean ok = db.ulozDoSuboru(id, cesta);

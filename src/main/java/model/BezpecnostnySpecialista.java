@@ -17,7 +17,7 @@ public class BezpecnostnySpecialista extends Zamestnanec {
      * Váhy: DOBRA=1, PRIEMERNA=2, SLABA=3
      * Čím vyššie skóre, tým väčšie riziko (veľa slabých spoluprác).
      */
-    public double vypocitajRizikoveSkore() {
+    private double vypocitajRizikoveSkore() {
         List<Spolupraca> zoznam = getSpolupracovnici();
         if (zoznam.isEmpty()) return 0.0;
 
@@ -34,7 +34,7 @@ public class BezpecnostnySpecialista extends Zamestnanec {
         return Math.round(zoznam.size() * priemer * 100.0) / 100.0;
     }
 
-    public String interpretaciaRizika(double skore) {
+    private String interpretaciaRizika(double skore) {
         if (skore <= 3)  return "Nízke riziko";
         if (skore <= 8)  return "Stredné riziko";
         if (skore <= 15) return "Vysoké riziko";

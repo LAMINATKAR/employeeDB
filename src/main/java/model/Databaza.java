@@ -170,7 +170,7 @@ public class Databaza {
                 pridajZamestnanca(z);
             }
             return z;
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             System.err.println("Chyba pri načítaní: " + e.getMessage());
             return null;
         }
@@ -212,9 +212,12 @@ public class Databaza {
                 psS.executeBatch();
                 conn.commit();
                 System.out.println("Dáta uložené do SQL.");
+            } catch (SQLException e) {
+                try { conn.rollback(); } catch (SQLException ex) { /* ignoruj */ }
+                System.err.println("SQL chyba pri ukladaní: " + e.getMessage());
             }
         } catch (SQLException e) {
-            System.err.println("SQL chyba pri ukladaní: " + e.getMessage());
+            System.err.println("SQL chyba pri pripojení: " + e.getMessage());
         }
     }
 

@@ -12,9 +12,4 @@ public class Spolupraca {
     public int getKolegaId()           { return kolegaId; }
     public UrovenSpoluprace getUroven() { return uroven; }
     public void setUroven(UrovenSpoluprace u) { this.uroven = u; }
-
-    @Override
-    public String toString() {
-        return "KolegaId=" + kolegaId + " | Úroveň=" + uroven.toDisplay();
-    }
 }
