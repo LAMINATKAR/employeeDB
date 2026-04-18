@@ -11,12 +11,4 @@ public enum UrovenSpoluprace {
         };
     }
 
-    public static UrovenSpoluprace fromString(String s) {
-        return switch (s.toUpperCase()) {
-            case "SLABA"     -> SLABA;
-            case "PRIEMERNA" -> PRIEMERNA;
-            case "DOBRA"     -> DOBRA;
-            default -> throw new IllegalArgumentException("Neznáma úroveň: " + s);
-        };
-    }
 }

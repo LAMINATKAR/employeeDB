@@ -90,16 +90,23 @@ public class Main {
         int idA = Integer.parseInt(sc.nextLine().trim());
         System.out.print("ID kolegu: ");
         int idB = Integer.parseInt(sc.nextLine().trim());
-        System.out.print("Úroveň (SLABA / PRIEMERNA / DOBRA): ");
-        String uStr = sc.nextLine().trim();
+        System.out.print("Úroveň (1=Dobrá / 2=Priemerná / 3=Slabá): ");
+        String urovenVolba = sc.nextLine().trim();
 
-        try {
-            UrovenSpoluprace u = UrovenSpoluprace.fromString(uStr);
-            boolean ok = db.pridajSpolupraca(idA, idB, u);
-            System.out.println(ok ? "Spolupráca pridaná." : "Neplatné ID zamestnancov.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Neplatná úroveň: " + uStr);
+        UrovenSpoluprace u = switch (urovenVolba) {
+            case "1" -> UrovenSpoluprace.DOBRA;
+            case "2" -> UrovenSpoluprace.PRIEMERNA;
+            case "3" -> UrovenSpoluprace.SLABA;
+            default  -> null;
+        };
+
+        if (u == null) {
+            System.out.println("Neplatná úroveň");
+            return;
         }
+
+        boolean ok = db.pridajSpolupraca(idA, idB, u);
+        System.out.println(ok ? "Spolupráca pridaná." : "Neplatné ID zamestnancov.");
     }
 
     private static void odoberZamestnanca() {
