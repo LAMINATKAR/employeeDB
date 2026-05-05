@@ -17,8 +17,6 @@ public class Databaza {
             .registerTypeAdapter(Zamestnanec.class, new ZamestnanecAdapter())
             .create();
 
-    // ===================== CRUD =====================
-
     public Zamestnanec pridajZamestnanca(Zamestnanec z) {
         zamestnanci.put(z.getId(), z);
         if (z.getId() >= dalsiId) dalsiId = z.getId() + 1;
@@ -30,7 +28,6 @@ public class Databaza {
     public boolean odoberZamestnanca(int id) {
         if (!zamestnanci.containsKey(id)) return false;
         zamestnanci.remove(id);
-        // Odstráň všetky väzby na tohto zamestnanca
         for (Zamestnanec z : zamestnanci.values()) {
             z.odoberSpolupraca(id);
         }
@@ -53,32 +50,6 @@ public class Databaza {
         return Collections.unmodifiableMap(zamestnanci);
     }
 
-    /*
-    Collections.unmodifiableMap() obalí mapu tak, že ju nemožno modifikovať zvonka.
-
-    ---
-    Keby sme vrátili priamo:
-    return zamestnanci; // nebezpečné
-    Ktokoľvek kto dostane túto mapu mohol by spraviť:
-    mapa.put(99, nejakeZleDáta); // modifikuje internú mapu Databazy!
-    mapa.clear(); // vymaže všetko!
-
-    ---
-    S unmodifiableMap:
-    return Collections.unmodifiableMap(zamestnanci);
-    Ak by niekto skúsil put() alebo remove(), dostane UnsupportedOperationException.
-
-    Čítať z mapy môže normálne — len zapis je zakázaný.
-
-    ---
-    Prečo to tu má zmysel:
-
-    getMapaVsetkych() sa posiela do spustiDovednost() — tam zamestnanci len čítajú ostatných kolegov. Nemali by mať možnosť meniť databázu. Takto to
-    kompilátor/runtime ostrieha.
-    */
-
-    // ===================== ABECEDNÝ VÝPIS =====================
-
     public void vypisAbecedne() {
         List<Zamestnanec> analytici = zamestnanci.values().stream()
                 .filter(z -> z instanceof DatovyAnalytik)
@@ -96,8 +67,6 @@ public class Databaza {
         System.out.println("--- Bezpečnostní špecialisti (" + specialisti.size() + ") ---");
         specialisti.forEach(z -> System.out.println("  " + z.getPriezvisko() + " " + z.getMeno() + " (ID=" + z.getId() + ")"));
     }
-
-    // ===================== ŠTATISTIKY =====================
 
     public void vypisStatistiky() {
         Collection<Zamestnanec> vsetci = zamestnanci.values();
@@ -126,7 +95,7 @@ public class Databaza {
         System.out.println("Priemerná spolupráca: " + priemerna);
         System.out.println("Slabá spolupráca   : " + slaba);
 
-        long max = Math.max(dobra, Math.max(priemerna, slaba)); //Math.max() berie len 2 parametre — preto treba vnoriť pre 3 hodnoty.
+        long max = Math.max(dobra, Math.max(priemerna, slaba));
         String prevazujuca = (dobra == max) ? "Dobrá" : (priemerna == max) ? "Priemerná" : "Slabá";
         System.out.println("Prevažujúca        : " + prevazujuca);
 
@@ -143,8 +112,6 @@ public class Databaza {
         System.out.println("Bezpečnostní špecialisti: " + specialisti);
         System.out.println("Spolu                   : " + zamestnanci.size());
     }
-
-    // ===================== JSON SÚBOR (jednotlivec) =====================
 
     public boolean ulozDoSuboru(int id, String cestaSuboru) {
         Zamestnanec z = zamestnanci.get(id);
@@ -175,8 +142,6 @@ public class Databaza {
             return null;
         }
     }
-
-    // ===================== SQLite =====================
 
     private static final String DB_URL = "jdbc:sqlite:databaza.db";
 

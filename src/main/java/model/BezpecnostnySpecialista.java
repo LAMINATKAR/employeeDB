@@ -12,11 +12,6 @@ public class BezpecnostnySpecialista extends Zamestnanec {
     @Override
     public String getSkupina() { return "Bezpečnostný špecialista"; }
 
-    /**
-     * Rizikové skóre = počet_spolupracovníkov × priemerná_váha_úrovne
-     * Váhy: DOBRA=1, PRIEMERNA=2, SLABA=3
-     * Čím vyššie skóre, tým väčšie riziko (veľa slabých spoluprác).
-     */
     private double vypocitajRizikoveSkore() {
         List<Spolupraca> zoznam = getSpolupracovnici();
         if (zoznam.isEmpty()) return 0.0;

@@ -35,8 +35,6 @@ public class Main {
         System.out.println("Program ukončený. Dáta uložené.");
     }
 
-    // ===================== MENU =====================
-
     private static void vypisMenu() {
         System.out.println("╔══════════════════════════════════════╗");
         System.out.println("║     DATABÁZA ZAMESTNANCOV            ║");
@@ -55,8 +53,6 @@ public class Main {
         System.out.println("╚══════════════════════════════════════╝");
         System.out.print("Voľba: ");
     }
-
-    // ===================== POMOCNÉ =====================
 
     private static int nacitajInt(String prompt) {
         while (true) {
@@ -85,8 +81,6 @@ public class Main {
             System.out.println("Rok musí byť kladné číslo.");
         }
     }
-
-    // ===================== AKCIE =====================
 
     private static void pridajZamestnanca() {
         System.out.println("Skupiny: ");

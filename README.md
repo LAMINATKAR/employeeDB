@@ -36,3 +36,62 @@ Při přijetí do firmy je každý zaměstnanec zařazen do jedné skupiny a nel
 - Využití principů objektově orientovaného programování (OOP).
 - Použití alespoň jedné abstraktní třídy nebo rozhraní.
 - Použití alespoň jedné dynamické datové struktury.
+
+---
+
+## Implementácia
+
+### Technológie
+
+| Nástroj | Verzia |
+|---------|--------|
+| Java | 25 |
+| Gson | 2.10.1 |
+| SQLite JDBC | 3.45.1.0 |
+| Build | Maven |
+
+### Štruktúra tried
+
+```
+Main
+└── Databaza
+    ├── Zamestnanec  (abstraktná trieda)
+    │   ├── DatovyAnalytik
+    │   └── BezpecnostnySpecialista
+    ├── Spolupraca
+    ├── UrovenSpoluprace  (enum)
+    └── ZamestnanecAdapter  (Gson custom adapter)
+```
+
+### Dovednosti skupín
+
+**Datový analytik** — nájde spolupracovníka, s ktorým zdieľa najväčší počet spoločných kolegov (priesečník množín).
+
+**Bezpečnostný špecialista** — vypočíta rizikové skóre podľa vzorca:
+
+```
+skóre = počet_spolupracovníkov × priemerná_váha_úrovne
+```
+
+Váhy úrovní: Dobrá = 1, Priemerná = 2, Slabá = 3. Čím vyššie skóre, tým väčšie riziko.
+
+| Skóre | Hodnotenie |
+|-------|-----------|
+| ≤ 3 | Nízke riziko |
+| ≤ 8 | Stredné riziko |
+| ≤ 15 | Vysoké riziko |
+| > 15 | Kritické riziko |
+
+### Ukladanie dát
+
+- **SQL (SQLite)** — automaticky pri štarte (načítanie) a pri ukončení (uloženie). Súbor `databaza.db` sa vytvorí vedľa spusteného programu.
+- **JSON** — jednotlivý zamestnanec sa uloží/načíta manuálne cez menu. Pri načítaní duplicitného ID sa automaticky pridelí nové.
+
+### Spustenie
+
+```
+mvn compile
+mvn exec:java -Dexec.mainClass="Main"
+```
+
+alebo spustiť priamo z IntelliJ IDEA.

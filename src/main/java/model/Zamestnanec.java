@@ -18,11 +18,9 @@ public abstract class Zamestnanec {
         this.spolupracovnici  = new ArrayList<>();
     }
 
-    // --- Abstraktné metódy ---
     public abstract void spustiDovednost(java.util.Map<Integer, Zamestnanec> vsetci);
     public abstract String getSkupina();
 
-    // --- Spolupráca ---
     public void pridajSpolupraca(int kolegaId, UrovenSpoluprace uroven) {
         for (Spolupraca s : spolupracovnici) {
             if (s.getKolegaId() == kolegaId) {
@@ -39,7 +37,6 @@ public abstract class Zamestnanec {
 
     public ArrayList<Spolupraca> getSpolupracovnici() { return spolupracovnici; }
 
-    // --- Info výpis ---
     public String getInfo(Map<Integer, Zamestnanec> vsetci) {
         StringBuilder sb = new StringBuilder();
         sb.append("ID: ").append(id).append("\n");
@@ -57,7 +54,6 @@ public abstract class Zamestnanec {
             }
         }
 
-        // Štatistiky spolupráce
         long dobra     = spolupracovnici.stream().filter(s -> s.getUroven() == UrovenSpoluprace.DOBRA).count();
         long priemerna = spolupracovnici.stream().filter(s -> s.getUroven() == UrovenSpoluprace.PRIEMERNA).count();
         long slaba     = spolupracovnici.stream().filter(s -> s.getUroven() == UrovenSpoluprace.SLABA).count();
@@ -68,7 +64,6 @@ public abstract class Zamestnanec {
         return sb.toString();
     }
 
-    // --- Gettery / Settery ---
     public int getId()              { return id; }
     public String getMeno()         { return meno; }
     public String getPriezvisko()   { return priezvisko; }

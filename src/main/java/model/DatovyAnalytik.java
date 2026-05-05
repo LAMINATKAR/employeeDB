@@ -13,15 +13,10 @@ public class DatovyAnalytik extends Zamestnanec {
     @Override
     public String getSkupina() { return "Datový analytik"; }
 
-    /**
-     * Nájde spolupracovníka, s ktorým má tento analytik
-     * najviac spoločných spolupracovníkov (priesečník množín).
-     */
     @Override
     public void spustiDovednost(Map<Integer, Zamestnanec> vsetci) {
         System.out.println("=== Dovednosť: Najväčší priesečník spolupracovníkov ===");
 
-        // Množina vlastných spolupracovníkov
         Set<Integer> mojeSpoluprace = new HashSet<>();
         for (Spolupraca s : getSpolupracovnici()) {
             mojeSpoluprace.add(s.getKolegaId());
@@ -44,7 +39,6 @@ public class DatovyAnalytik extends Zamestnanec {
                 jehoSpoluprace.add(s.getKolegaId());
             }
 
-            // Priesečník
             Set<Integer> spolocne = new HashSet<>(mojeSpoluprace);
             spolocne.retainAll(jehoSpoluprace);
 

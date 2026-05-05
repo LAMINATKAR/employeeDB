@@ -3,10 +3,6 @@ package model;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 
-/**
- * Gson potrebuje vedieť, ktorú podtriedu má vytvoriť pri čítaní JSON-u.
- * Preto ukladáme aj pole "skupina" a podľa neho obnovujeme správny typ.
- */
 public class ZamestnanecAdapter implements JsonSerializer<Zamestnanec>, JsonDeserializer<Zamestnanec> {
 
     @Override
